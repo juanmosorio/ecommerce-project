@@ -6,7 +6,7 @@
     'username' => 'root',
     'password' => '',
     'charset' => 'utf8',
-    'port' => '443'
+    'port' => '3306'
   );
 
 ?>
