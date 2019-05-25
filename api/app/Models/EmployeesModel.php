@@ -7,17 +7,17 @@ class EmployeesModel extends Models {
   public function getEmployees() {
 
     $result = $this->db->select('employees', [
+        '[><]offices' => 'officeCode',
+      ],[
       'employeeNumber',
       'lastName',
       'firstName',
       'extension',
       'email',
-      'officeCode',
+      'offices.city',
       'reportsTo',
       'jobTitle'
     ]);
-  //  var_dump('model'); die();
-
 
     // !Conexion.
     if (!is_null($this->db->error()[1])) {
@@ -32,6 +32,55 @@ class EmployeesModel extends Models {
       'employees' => $result
     );
 
+  }
+
+  public function insertEmployees($employee) {
+    $result = $this->db->insert('employee', [
+      'employeeNumber' => $employee['employeeNumber'],
+      'lastName' => $employee['lastName'],
+      'firstName' => $employee['firstName'],
+      'extension' => $employee['extension'],
+      'email' => $employee['email'],
+      'officeCode' => $employee['officeCode'],
+      'reportsTo' => $employee['reportsTo'],
+      'jobTitle' => $employee['jobTitle']
+    ]);
+
+    if (!is_null($this->db->error()[1])) {
+      return array(
+        'success' => false,
+        'description' => $this->db->error()[2]
+      );
+    }
+
+    return array(
+      'success' => true,
+      'description' => 'The employee was inserted'
+    );
+  }
+
+  public function updateEmployees($employeeNumber, $employee) {
+    $result = $this->db->update('employees', [
+      'lastName' => $employee['lastName'],
+      'firstName' => $employee['firstName'],
+      'extension' => $employee['extension'],
+      'email' => $employee['email'],
+      'officeCode' => $employee['officeCode'],
+      'reportsTo' => $employee['reportsTo'],
+      'jobTitle' => $employee['jobTitle']
+    ], ['employeeNumber' => $employeeNumber]);
+
+    if (!is_null($this->db->error()[1])) {
+      return array(
+        'success' => false,
+        'description' => $this->db->error()[2]
+      );
+    }
+
+    return array(
+      'success' => true,
+      'description' => 'The employee was updated'
+    );
   }
 
 }
