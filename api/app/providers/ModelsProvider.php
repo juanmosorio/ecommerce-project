@@ -16,4 +16,9 @@ $container['OfficesModel'] = function($container) {
   return new app\Models\OfficesModel($container);
 };
 
+
+$container['OrderModel'] = function($container) {
+  return new app\Models\OrderModel($container);
+};
+
 ?>

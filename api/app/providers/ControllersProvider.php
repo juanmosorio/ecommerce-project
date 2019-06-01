@@ -20,4 +20,8 @@ $container['OfficesController'] = function($container) {
   return new app\Controllers\OfficesController($container);
 };
 
+$container['OrderController'] = function($container) {
+  return new app\Controllers\OrderController($container);
+};
+
 ?>

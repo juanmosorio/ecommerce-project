@@ -79,8 +79,7 @@ class OfficesModel extends Models {
     
     return array(
       'success' => true, 
-      'description' => 'The office was updated', 
-      'result' => $this->db->error()
+      'description' => 'The office was updated'
     );
   }
 

@@ -5,49 +5,74 @@ namespace app\Models;
 class ProductsModel extends Models {
 
   public function getProducts() {
-    $result = $this->db->select('products',[
-      'productCode',
-      'productName',
-      'productLine',
-      'productScale',
-      'productVendor',
-      'productDescription',
-      'quantityInStock',
-      'buyPrice',
-      'MSRP'
-    ]);
+    $sth = $this->db->pdo->prepare('SELECT 
+     productCode,
+     productName,
+     productLine,
+     productScale,
+     productVendor,
+     productDescription,
+     quantityInStock,
+     buyPrice,
+     MSRP FROM products');
 
-    // !Conexion.
-    if (!is_null($this->db->error()[1])) {
-      return array('error' => true,'description' => $this->db->error()[2]);
-    } else if (empty($result)) { // sin Datos
+    $sth->execute();
+
+    if (!is_null($sth->errorInfo()[2]) ) {
+      return array(
+        'success' => false,
+        'description' => $sth->errorInfo()[2]
+      );
+    } else if (empty($sth)) {
       return array('notFound' => true, 'description' => 'The result is empty');
     }
+
 
     return array(
       'success' => true,
       'description' => 'The products were found',
-      'employees' => $result
+      'products' => $sth->fetchAll($this->db->pdo::FETCH_ASSOC)
     );
+    
   }
 
   public function insertProducts($products) {
-    $result = $this->db->insert('products', [
-      'productCode' => $products['productCode'],
-      'productName' => $products['productName'],
-      'productLine' => $products['productLine'],
-      'productScale' => $products['productScale'],
-      'productVendor' => $products['productVendor'],
-      'productDescription' => $products['productDescription'],
-      'quantityInStock' => $products['quantityInStock'],
-      'buyPrice' => $products['buyPrice'],
-      'MSRP' => $products['MSRP']
-    ]);
+    $sth = $this->db->pdo->prepare('INSERT INTO products
+      (productCode,
+      productName,
+      productLine,
+      productScale,
+      productVendor,
+      productDescription,
+      quantityInStock,
+      buyPrice,
+      MSRP
+      ) VALUES (:productCode,
+      :productName,
+      :productLine,
+      :productScale,
+      :productVendor,
+      :productDescription,
+      :quantityInStock,
+      :buyPrice,
+      :MSRP)');
 
-    if (!is_null($this->db->error()[1])) {
+    $sth->bindParam(':productCode', $products['productCode'], $this->db->pdo::PARAM_STR);
+    $sth->bindParam(':productName', $products['productName'], $this->db->pdo::PARAM_STR);
+    $sth->bindParam(':productLine', $products['productLine'], $this->db->pdo::PARAM_STR);
+    $sth->bindParam(':productScale', $products['productScale'], $this->db->pdo::PARAM_STR);
+    $sth->bindParam(':productVendor', $products['productVendor'], $this->db->pdo::PARAM_STR);
+    $sth->bindParam(':productDescription', $products['productDescription'], $this->db->pdo::PARAM_STR);
+    $sth->bindParam(':quantityInStock', $products['quantityInStock'], $this->db->pdo::PARAM_STR);
+    $sth->bindParam(':buyPrice', $products['buyPrice'], $this->db->pdo::PARAM_STR);
+    $sth->bindParam(':MSRP', $products['MSRP'], $this->db->pdo::PARAM_STR);
+
+    $sth->execute();
+
+    if (!is_null($sth->errorInfo()[2]) ) {
       return array(
         'success' => false,
-        'description' => $this->db->error()[2]
+        'description' => $sth->errorInfo()[2]
       );
     }
 
@@ -58,21 +83,31 @@ class ProductsModel extends Models {
   }
 
   public function updateProduct($productCode, $product) {
-    $result = $this->db->update('products', [
-      'productName' => $product['productName'],
-      // 'productLine' => $product['productLine'],
-      'productScale' => $product['productScale'],
-      'productVendor' => $product['productVendor'],
-      'productDescription' => $product['productDescription'],
-      'quantityInStock' => $product['quantityInStock'],
-      'buyPrice' => $product['buyPrice'],
-      'MSRP' => $product['MSRP']
-    ], ['productCode'  => $productCode]);
+    $sth = $this->db->pdo->prepare('UPDATE products
+     SET 
+      productName = :productName,
+      productScale = :productScale,
+      productVendor = :productVendor,
+      productDescription = :productDescription,
+      quantityInStock = :quantityInStock,
+      buyPrice = :buyPrice,
+      MSRP = :MSRP WHERE productCode = :productCode');
 
-    if (!is_null($this->db->error()[1])) {
+    $sth->bindParam(':productName', $product['productName'], $this->db->pdo::PARAM_STR);
+    $sth->bindParam(':productScale', $product['productScale'], $this->db->pdo::PARAM_STR);
+    $sth->bindParam(':productVendor', $product['productVendor'], $this->db->pdo::PARAM_STR);
+    $sth->bindParam(':productDescription', $product['productDescription'], $this->db->pdo::PARAM_STR);
+    $sth->bindParam(':quantityInStock', $product['quantityInStock'], $this->db->pdo::PARAM_STR);
+    $sth->bindParam(':buyPrice', $product['buyPrice'], $this->db->pdo::PARAM_STR);
+    $sth->bindParam(':MSRP', $product['MSRP'], $this->db->pdo::PARAM_STR);
+    $sth->bindParam(':productCode', $productCode, $this->db->pdo::PARAM_STR);
+
+    $sth->execute();
+
+    if (!is_null($sth->errorInfo()[2]) ) {
       return array(
         'success' => false,
-        'description' => $this->db->error()[2]
+        'description' => $sth->errorInfo()[2]
       );
     }
     

@@ -35,7 +35,7 @@ class EmployeesModel extends Models {
   }
 
   public function insertEmployees($employee) {
-    $result = $this->db->insert('employee', [
+    $result = $this->db->insert('employees', [
       'employeeNumber' => $employee['employeeNumber'],
       'lastName' => $employee['lastName'],
       'firstName' => $employee['firstName'],
