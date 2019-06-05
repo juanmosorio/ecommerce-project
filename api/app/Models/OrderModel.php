@@ -21,14 +21,26 @@ class OrderModel extends Models {
     foreach($lines as $key => $line) {
       $product = $line['product'];
       $quantity = $line['quantity'];
-      
-      $this->db->insert('orderdetails', [
-        'orderNumber' => $oderNumber,
-        'productCode' => $product['productCode'],
-        'quantityOrdered' => $quantity,
-        'priceEach' => $product['MSRP'],
-        'orderLineNumber' => $key + 1
-      ]);
+
+      $sth = $this->db->pdo->prepare('CALL insertOrderDetails(
+        :orderNumber, :productCode, :quantityOrdered, :priceEach , :orderLineNumber)'
+      );
+
+      $sth->bindParam(':orderNumber', $oderNumber, $this->db->pdo::PARAM_INT);
+      $sth->bindParam(':productCode', $product['productCode'], $this->db->pdo::PARAM_STR);
+      $sth->bindParam(':quantityOrdered', $quantity, $this->db->pdo::PARAM_STR);
+      $sth->bindParam(':priceEach', $product['MSRP'], $this->db->pdo::PARAM_STR);
+      $sth->bindParam(':orderLineNumber', $key, $this->db->pdo::PARAM_STR);
+
+      $sth->execute();
+
+      // $this->db->insert('orderdetails', [
+      //   'orderNumber' => $oderNumber,
+      //   'productCode' => $product['productCode'],
+      //   'quantityOrdered' => $quantity,
+      //   'priceEach' => $product['MSRP'],
+      //   'orderLineNumber' => $key + 1
+      // ]);
     }
 
     if (!is_null($this->db->error()[1])) {
