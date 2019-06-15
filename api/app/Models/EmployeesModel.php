@@ -14,6 +14,7 @@ class EmployeesModel extends Models {
       'firstName',
       'extension',
       'email',
+      'password',
       'offices.city',
       'reportsTo',
       'jobTitle'
@@ -35,12 +36,16 @@ class EmployeesModel extends Models {
   }
 
   public function insertEmployees($employee) {
+
+    $passwordHash = password_hash($employee['password'], PASSWORD_BCRYPT, ['cost' => 10]);
+  
     $result = $this->db->insert('employees', [
       'employeeNumber' => $employee['employeeNumber'],
       'lastName' => $employee['lastName'],
       'firstName' => $employee['firstName'],
       'extension' => $employee['extension'],
       'email' => $employee['email'],
+      'password' => $passwordHash,
       'officeCode' => $employee['officeCode'],
       'reportsTo' => $employee['reportsTo'],
       'jobTitle' => $employee['jobTitle']
@@ -60,11 +65,15 @@ class EmployeesModel extends Models {
   }
 
   public function updateEmployees($employeeNumber, $employee) {
+
+    $passwordHash = password_hash($employee['password'], PASSWORD_BCRYPT, ['cost' => 10]);
+    
     $result = $this->db->update('employees', [
       'lastName' => $employee['lastName'],
       'firstName' => $employee['firstName'],
       'extension' => $employee['extension'],
       'email' => $employee['email'],
+      'password' => $passwordHash,
       'officeCode' => $employee['officeCode'],
       'reportsTo' => $employee['reportsTo'],
       'jobTitle' => $employee['jobTitle']
@@ -92,6 +101,7 @@ class EmployeesModel extends Models {
       'firstName',
       'extension',
       'email',
+      'password',
       'offices.city',
       'reportsTo',
       'jobTitle'

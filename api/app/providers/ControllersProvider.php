@@ -24,4 +24,8 @@ $container['OrderController'] = function($container) {
   return new app\Controllers\OrderController($container);
 };
 
+$container['LoginController'] = function($container) {
+  return new app\Controllers\LoginController($container);
+};
+
 ?>
