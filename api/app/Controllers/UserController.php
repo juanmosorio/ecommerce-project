@@ -9,9 +9,9 @@ class UserController extends Controller {
   }
 
   function helloUserName($request, $respond) { 
-    // var_dump($respond); die();
     $name = $request->getAttribute('name');
-    return json_encode(array('Hello' => $name));
+    $message = $this->JWTService->getTokekName($name);
+    return json_encode(array('result' => $message));
   }
 }
 

@@ -21,6 +21,12 @@ class EmployeesController extends Controller {
     $message = $this->EmployeesModel->updateEmployees($employeeNumber, $employee);
     return json_encode($message);
   }
+
+  function getEmployee($request, $response) {
+    $employeeNumber = $request->getAttribute('employeeNumber');
+    $message = $this->EmployeesModel->getEmployee($employeeNumber);
+    return json_encode($message);
+  }
   
 }
 
