@@ -5,7 +5,8 @@ namespace app\Models;
 class LoginModel extends Models {
 
 	public function loginUser($user) {
-	  $result = $this->db->select('employees',[
+	  $result = $this->db->get('employees',[
+      'employeeNumber',
 	    'email',
 	    'password'
 	  ], [
@@ -17,23 +18,23 @@ class LoginModel extends Models {
     } else if (empty($result)) { // sin Datos
       return array(
       	'notFound' => true,
-      	'description' => 'Email or Password was wrong'
+      	'description' => 'Email was wrong'
       );
     }
 
-    if (!password_verify($user['password'], $result[0]['password'])) {
+    if (!password_verify($user['password'], $result['password'])) {
     	return array(
       	'notFound' => true,
-      	'description' => 'Email or Password was wrong'
+      	'description' => 'Password was wrong'
       );
     }
 
-    $token = $this->JWTService->getTokenUser($user['email']);
+    $token["encoded"] = $this->JWTService->getTokenUser($result['employeeNumber']);
+		// $token["decoded"] = $this->JWTService->verifyToken($token["encoded"]);
 
     return array(
       'success' => true,
-      'description' => 'The user was found',
-      'user' => $result,
+      // 'user' => $result,
       'token' => $token
     );
 	}
