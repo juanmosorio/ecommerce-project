@@ -29,13 +29,9 @@ class LoginModel extends Models {
       );
     }
 
-    $token["encoded"] = $this->JWTService->getTokenUser($result['employeeNumber']);
-		// $token["decoded"] = $this->JWTService->verifyToken($token["encoded"]);
-
     return array(
       'success' => true,
-      // 'user' => $result,
-      'token' => $token
+      'user' => $result
     );
 	}
 
