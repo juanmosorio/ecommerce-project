@@ -12,11 +12,9 @@ export class StoreComponent implements OnInit {
   constructor(private productsRespositoryService: ProductRepositoryService) {}
 
   ngOnInit() {
-    // console.log(this.getProducts());
-    this.getProducts();
   }
 
-  getProducts(): Product[] {    
+  get products(): Product[] {    
     return this.productsRespositoryService.getProducts();
   }
 

@@ -11,16 +11,9 @@ export class ProductRepositoryService {
 
   constructor(private dataSourceService: ProductDatasourceService) {
     this.dataSourceService.getProducts()
-      .subscribe((response: any) => {
-        // console.log(response['products']);
-        this.products = response['products'];
-        console.log(this.products);
-      });
+      .subscribe((response: any) => this.products = response['products']);
   }
 
-  getProducts() {
-    // console.log(this.products);
-    return this.products;
-  }
+  getProducts = () => this.products;
 
 }
