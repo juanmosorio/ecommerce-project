@@ -1,14 +1,14 @@
 export class Product {
 
   constructor(
-    private productCode: string,
-    private productName: string,
-    private productLine: string,
-    private productScale: string,
-    private productVendor: string,
-    private productDescription: string,  
-    private quantityInStock: number,
-    private buyPrice: number,  
-    private MSRP: number) { }
+    public productCode: string,
+    public productName: string,
+    public productLine: string,
+    public productScale: string,
+    public productVendor: string,
+    public productDescription: string,  
+    public quantityInStock: number,
+    public buyPrice: number,  
+    public MSRP: number) { }
 
 }
