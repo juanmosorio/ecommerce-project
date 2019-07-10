@@ -31,10 +31,12 @@ export class ProductRepositoryService {
       });
   }
 
-  getProducts(productLine: string = null): Product[] {
+  getProducts(productLine: string = null, productVendor: string = null, productScale: string = null): Product[] {
     return this.products
       .filter((product: Product) => {
-        return productLine == null || product.productLine === productLine
+        return ((productLine == null || product.productLine === productLine) &&
+        (productVendor == null || product.productVendor === productVendor) &&
+        (productScale == null || product.productScale === productScale))
       });
   }
 

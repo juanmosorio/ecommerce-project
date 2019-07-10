@@ -22,7 +22,8 @@ export class StoreComponent implements OnInit {
 
   get products(): Product[] {
     const pageIndex = (this.selectedPage - 1) * this.productsPerPage;
-    return this.productsRespositoryService.getProducts(this.selectedCategory)
+    return this.productsRespositoryService
+      .getProducts(this.selectedCategory, this.selectedVendor, this.selectedScale)
       .slice(pageIndex, (pageIndex + this.productsPerPage));
   }
 
@@ -39,23 +40,31 @@ export class StoreComponent implements OnInit {
   }
 
   changeCategory(newCategory?: string ) {
-    this.selectedPage = 1;
+    this.clearCVS();
     this.selectedCategory = newCategory;
   }
 
   changeVendor(newVendor?: string) {
-    this.selectedPage = 1;
+    this.clearCVS();
     this.selectedVendor = newVendor;
   }
 
   changeScale(newScale?: string) {
-    this.selectedPage = 1;
+    this.clearCVS();
     this.selectedScale = newScale;
+  }
+
+  clearCVS() {
+    this.selectedPage = 1;
+    this.selectedCategory = null;
+    this.selectedVendor = null;
+    this.selectedScale = null;
   }
 
   get pageNumbers(): number[] {
     return Array(
-      Math.ceil(this.productsRespositoryService.getProducts(this.selectedCategory)
+      Math.ceil(this.productsRespositoryService
+        .getProducts(this.selectedCategory, this.selectedVendor, this.selectedScale)
         .length / this.productsPerPage)
     ).fill(0).map((x, i) => i + 1);
   }
