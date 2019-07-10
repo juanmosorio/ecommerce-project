@@ -63,15 +63,24 @@
 
         <div class="row">
 
-          <div class="col-lg-4 col-md-6 mb-4" *ngFor="let product of products">
+          <div 
+            class="col-lg-4 col-md-6 mb-4"
+            *ngFor="let product of products"
+          >
             <div class="card h-100">
               <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
               <div class="card-body">
                 <h4 class="card-title">
-                  <a href="#">{{ product.productName | slice:0:30 }}...</a>
+                  <a href="#">
+                    {{ product.productName | slice:0:30 }}...
+                  </a>
                 </h4>
-                <h5 class="badge badge-danger">{{ product.MSRP | currency  }}</h5>
-                <p class="card-text">{{ product.productDescription | slice:0:50 }}...</p>
+                <h5 class="badge badge-danger">
+                  {{ product.MSRP | currency  }}
+                </h5>
+                <p class="card-text">
+                  {{ product.productDescription | slice:0:50 }}...
+                </p>
               </div>
               <div class="card-footer">
                 <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
@@ -81,6 +90,27 @@
 
         </div>
         <!-- /.row -->
+
+        <div class="row">
+          <div class="col">
+            <nav aria-label="...">
+              <ul class="pagination pagination-sm justify-content-end">
+                <li 
+                  class="page-item"
+                  *ngFor="let page of pageNumbers"
+                  [class.active]="page == selectedPage"
+                >
+                  <a
+                    class="page-link" href="#"
+                    (click)="changePage(page)"
+                  >
+                    {{ page }}
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
 
       </div>
       <!-- /.col-lg-9 -->
