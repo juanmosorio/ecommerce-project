@@ -10,6 +10,8 @@ import { Product } from '../model/product';
 export class StoreComponent implements OnInit {
 
   public selectedCategory = null;
+  public selectedVendor = null;
+  public selectedScale = null;
   public productsPerPage = 12;
   public selectedPage = 1;
 
@@ -39,6 +41,16 @@ export class StoreComponent implements OnInit {
   changeCategory(newCategory?: string ) {
     this.selectedPage = 1;
     this.selectedCategory = newCategory;
+  }
+
+  changeVendor(newVendor?: string) {
+    this.selectedPage = 1;
+    this.selectedVendor = newVendor;
+  }
+
+  changeScale(newScale?: string) {
+    this.selectedPage = 1;
+    this.selectedScale = newScale;
   }
 
   get pageNumbers(): number[] {
