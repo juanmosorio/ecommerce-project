@@ -28,6 +28,14 @@ export class StoreComponent implements OnInit {
     return this.productsRespositoryService.getCategories();
   }
 
+  get scales(): string[] {
+    return this.productsRespositoryService.getScales();
+  }
+
+  get vendors(): string[] {
+    return this.productsRespositoryService.getVendors();
+  }
+
   changeCategory(newCategory?: string ) {
     this.selectedPage = 1;
     this.selectedCategory = newCategory;

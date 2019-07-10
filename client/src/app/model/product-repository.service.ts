@@ -9,13 +9,23 @@ export class ProductRepositoryService {
 
   private products: Product[] = [];
   private categories: string[] = [];
+  private scales: string[] = [];
+  private vendors: string[] = [];
 
   constructor(private dataSourceService: ProductDatasourceService) {
     this.dataSourceService.getProducts()
       .subscribe((response: any) =>{
         this.products = response['products']
         this.categories = response['products']
-          .map(p => p.productLine)
+          .map((product: Product) => product.productLine)
+          .filter((c, index, array) => array.indexOf(c) === index)
+          .sort();
+        this.scales = response['products']
+          .map((product: Product) => product.productScale)
+          .filter((c, index, array) => array.indexOf(c) === index)
+          .sort();
+        this.vendors = response['products']
+          .map((product: Product) => product.productVendor)
           .filter((c, index, array) => array.indexOf(c) === index)
           .sort();
       });
@@ -23,11 +33,15 @@ export class ProductRepositoryService {
 
   getProducts(productLine: string = null): Product[] {
     return this.products
-      .filter((product: Product) => productLine == null || product.productLine === productLine);
+      .filter((product: Product) => {
+        return productLine == null || product.productLine === productLine
+      });
   }
 
   getCategories = (): string[] => this.categories;
 
+  getScales = ():string[] => this.scales;
 
+  getVendors = ():string[] => this.vendors;
 
 }
