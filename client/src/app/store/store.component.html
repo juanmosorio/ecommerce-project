@@ -11,8 +11,8 @@
         <h1 class="my-4">Categories</h1>
         <div class="list-group">
   
-          <a href="#"
-            class="list-group-item"
+          <a 
+            class="list-group-item" style="cursor: pointer;"
             [class.active]="category == selectedCategory"
             (click)="changeCategory()"
           > 
@@ -20,7 +20,7 @@
             Home
           </a>
           
-          <a href="#" class="list-group-item"
+          <a  class="list-group-item" style="cursor: pointer;"
             [class.active]="category == selectedCategory"
             *ngFor="let category of categories"
             (click)="changeCategory(category)"
@@ -33,7 +33,7 @@
         
         <div class="list-group">
       
-          <a href="#" class="list-group-item"
+          <a  class="list-group-item" style="cursor: pointer;"
             [class.active]="vendor == selectedVendor"
             *ngFor="let vendor of vendors"
             (click)="changeVendor(vendor)"
@@ -46,7 +46,7 @@
         
         <div class="list-group">
       
-          <a href="#" class="list-group-item"
+          <a  class="list-group-item" style="cursor: pointer;"
             [class.active]="scale == selectedScale"
             *ngFor="let scale of scales"
             (click)="changeScale(scale)"
@@ -109,15 +109,32 @@
                 </p>
               </div>
               <div class="card-footer">
-                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+                <button 
+                  class="btn btn-info btn-block"
+                  (click)="addCart(product);"
+                >Add Cart
+                </button>
               </div>
             </div>
           </div>
-
+          
         </div>
         <!-- /.row -->
-
+        
         <div class="row">
+
+          <div class="col-3">
+            <select 
+              class="form-control form-control-sm"
+              (change)="changePageSize($event.target.value)"
+            >
+              <option value="12">12 per Page</option>
+              <option value="16">16 per Page</option>
+              <option value="20">20 per Page</option>
+              <option value="24">24 per Page</option>
+            </select>
+          </div>
+
           <div class="col">
             <nav aria-label="...">
               <ul class="pagination pagination-sm justify-content-end">
@@ -136,6 +153,7 @@
               </ul>
             </nav>
           </div>
+
         </div>
 
       </div>
