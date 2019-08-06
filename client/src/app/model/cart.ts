@@ -14,7 +14,6 @@ export class Cart {
     const line = this.lines.find((line) => line.product.productCode === product.productCode);
     if (line !== undefined) {
       line.quantity += quantity;
-      console.log(this.lines);
     } else {
       this.lines.push(new CartLine(product, quantity));
     }
@@ -30,6 +29,20 @@ export class Cart {
       this.itemCount += line.quantity;
       this.cartPrice += (line.quantity * line.product.MSRP);
     });
+  }
+
+  updateQuantity(product: Product, quantity: number) {
+    let line = this.lines.find(line => line.product.productCode == product.productCode);
+    if (line != undefined) {
+      line.quantity = Number(quantity);
+    }
+    this.recalculate();
+  }
+
+  deleteLine(productCode: string) {
+    let index = this.lines.findIndex(line => line.product.productCode == productCode);
+    this.lines.splice(index, 1);
+    this.recalculate();
   }
 
 }
