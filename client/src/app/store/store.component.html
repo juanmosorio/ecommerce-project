@@ -1,4 +1,4 @@
-<app-nav></app-nav>
+
   <!-- Page Content -->
  
   <!-- Page Content -->
@@ -94,10 +94,10 @@
             *ngFor="let product of products"
           >
             <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+              <a (click)="productDetails(product.productCode)"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
               <div class="card-body">
                 <h4 class="card-title">
-                  <a href="#">
+                  <a class="product-details" (click)="productDetails(product.productCode)" >
                     {{ product.productName | slice:0:30 }}...
                   </a>
                 </h4>

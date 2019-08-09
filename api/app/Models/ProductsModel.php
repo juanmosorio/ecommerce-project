@@ -36,6 +36,40 @@ class ProductsModel extends Models {
     
   }
 
+  public function getProductById($productCode) {
+    $sth = $this->db->pdo->prepare('SELECT 
+     productCode,
+     productName,
+     productLine,
+     productScale,
+     productVendor,
+     productDescription,
+     quantityInStock,
+     buyPrice,
+     MSRP FROM products WHERE productCode = :productCode');
+    
+    $sth->bindParam(':productCode', $productCode, $this->db->pdo::PARAM_STR);
+
+    $sth->execute();
+
+    if (!is_null($sth->errorInfo()[2]) ) {
+      return array(
+        'success' => false,
+        'description' => $sth->errorInfo()[2]
+      );
+    } else if (empty($sth)) {
+      return array('notFound' => true, 'description' => 'The result is empty');
+    }
+
+
+    return array(
+      'success' => true,
+      'description' => 'The product was found',
+      'products' => $sth->fetchAll($this->db->pdo::FETCH_ASSOC)
+    );
+    
+  }
+
   public function insertProducts($products) {
     $sth = $this->db->pdo->prepare('INSERT INTO products
       (productCode,
