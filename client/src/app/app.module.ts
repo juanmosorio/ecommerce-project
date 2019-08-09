@@ -5,10 +5,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StoreModule } from './store/store.module';
 import { HttpClientModule } from '@angular/common/http';
+import { NavComponent } from './store/nav/nav.component';
+import { CartSummaryComponent } from './store/cart-summary/cart-summary.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NavComponent,
+    CartSummaryComponent
   ],
   imports: [
     BrowserModule,

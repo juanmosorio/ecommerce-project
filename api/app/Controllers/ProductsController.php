@@ -8,6 +8,12 @@ class ProductsController extends Controller {
     $message = $this->ProductsModel->getProducts();
     return json_encode($message);
   }
+
+  public function getProductById($request, $response) {
+    $productCode = $request->getAttribute('productCode');
+    $message = $this->ProductsModel->getProductById($productCode);
+    return json_encode($message);
+  }
   
   public function insertProducts($request, $response) {
     $product = $request->getParsedBody();
