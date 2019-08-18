@@ -4,6 +4,68 @@ namespace app\Models;
 
 class OrderModel extends Models {
 
+  public function getOrders() {
+    $sth = $this->db->pdo->prepare('SELECT 
+      orderNumber,
+      orderDate,
+      requiredDate,
+      shippedDate,
+      status,
+      comments,
+      customerNumber FROM orders
+      ORDER BY shippedDate DESC'
+    );
+
+    $sth->execute();
+
+    if (!is_null($sth->errorInfo()[2]) ) {
+      return array(
+        'success' => false,
+        'description' => $sth->errorInfo()[2]
+      );
+    } else if (empty($sth)) {
+      return array('notFound' => true, 'description' => 'The result is empty');
+    }
+
+
+    return array(
+      'success' => true,
+      'description' => 'The orders were found',
+      'orders' => $sth->fetchAll($this->db->pdo::FETCH_ASSOC)
+    );
+  }
+
+  public function getOrdersDetails() {
+    $sth = $this->db->pdo->prepare('SELECT 
+      orderNumber,
+      products.productName,
+      orderdetails.productCode,
+      quantityOrdered,
+      priceEach,
+      orderLineNumber FROM orderdetails
+      INNER JOIN products
+      ON orderdetails.productCode = products.productCode'
+    );
+
+    $sth->execute();
+
+    if (!is_null($sth->errorInfo()[2]) ) {
+      return array(
+        'success' => false,
+        'description' => $sth->errorInfo()[2]
+      );
+    } else if (empty($sth)) {
+      return array('notFound' => true, 'description' => 'The result is empty');
+    }
+
+
+    return array(
+      'success' => true,
+      'description' => 'The orderDetails was found',
+      'orderDetails' => $sth->fetchAll($this->db->pdo::FETCH_ASSOC)
+    );
+  }
+
   public function insertOrder($order) {
     $oderNumber = time();
     $lines = $order['cart']['lines'];
@@ -22,25 +84,13 @@ class OrderModel extends Models {
       $product = $line['product'];
       $quantity = $line['quantity'];
 
-      $sth = $this->db->pdo->prepare('CALL insertOrderDetails(
-        :orderNumber, :productCode, :quantityOrdered, :priceEach , :orderLineNumber)'
-      );
-
-      $sth->bindParam(':orderNumber', $oderNumber, $this->db->pdo::PARAM_INT);
-      $sth->bindParam(':productCode', $product['productCode'], $this->db->pdo::PARAM_STR);
-      $sth->bindParam(':quantityOrdered', $quantity, $this->db->pdo::PARAM_STR);
-      $sth->bindParam(':priceEach', $product['MSRP'], $this->db->pdo::PARAM_STR);
-      $sth->bindParam(':orderLineNumber', $key, $this->db->pdo::PARAM_STR);
-
-      $sth->execute();
-
-      // $this->db->insert('orderdetails', [
-      //   'orderNumber' => $oderNumber,
-      //   'productCode' => $product['productCode'],
-      //   'quantityOrdered' => $quantity,
-      //   'priceEach' => $product['MSRP'],
-      //   'orderLineNumber' => $key + 1
-      // ]);
+      $this->db->insert('orderdetails', [
+        'orderNumber' => $oderNumber,
+        'productCode' => $product['productCode'],
+        'quantityOrdered' => $quantity,
+        'priceEach' => $product['MSRP'],
+        'orderLineNumber' => $key + 1
+      ]);
     }
 
     if (!is_null($this->db->error()[1])) {

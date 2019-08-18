@@ -18,4 +18,12 @@ export class ProductDatasourceService {
     return this.httpClient.get(`${ this.baseUrl }/products`);
   }
 
+  getOrders(): any {
+    return this.httpClient.get(`${ this.baseUrl }/orders`);
+  }
+
+  getOrderDetails(): any {
+    return this.httpClient.get(`${ this.baseUrl }/order-details`);
+  }
+
 }

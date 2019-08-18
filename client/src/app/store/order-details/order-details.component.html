@@ -1,0 +1,56 @@
+<div class="container">
+  <div class="mt-4">
+    <h1>Order Details</h1>
+    <div>
+    	<div class="media">
+			  <div *ngIf="order" class="media-body">
+			  	<div class="my-5">
+			  		<h5 class="mt-0"><span class="font-weight-bold">Order Number</span>: {{ order.orderNumber }}</h5>
+				  	<h5 class="mt-0"><span class="font-weight-bold">Order Date</span>: {{ order.orderDate }}</h5>
+				  	<h5 class="mt-0"><span class="font-weight-bold">Order Required Date</span>: {{ order.requiredDate }}</h5>
+				  	<h5 class="mt-0"><span class="font-weight-bold">Order Shipped Date</span>: {{ order.shippedDate }}</h5>
+				  	<h5 class="mt-0"><span class="font-weight-bold">Order Status</span>: {{ order.status }}</h5>
+				  	<h5>
+				  		
+				  	</h5>
+			  	</div>
+			   <div *ngIf="order.comments">
+			   	 <h5>Comments: </h5>
+			    	{{ order.comments }}
+			   </div>
+			  </div>
+			</div>
+			<div>
+				<table class="table">
+				  <thead>
+				    <tr>
+				      <th scope="col">Product</th>
+				      <th scope="col">Quantity Order</th>
+				      <th scope="col">Price Each</th>
+				      <th scope="col">Order Line Number</th>
+				      <th scope="col">SubTotal</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr *ngFor="let orderDetail of orderDetails">
+				      <td>{{ orderDetail.productName }}</td>
+				      <td>{{ orderDetail.quantityOrdered }}</td>
+				      <td>{{ orderDetail.priceEach }}</td>
+				      <td>{{ orderDetail.orderLineNumber }}</td>
+				      <td>{{ (orderDetail.priceEach * orderDetail.orderLineNumber) | currency:"USD":"symbol":"2.2-2" }}</td>
+				    </tr>
+				  </tbody>
+				  <tfoot>
+	          <tr>
+	            <td class="text-right" colspan="3" >Total:</td>
+	            <td class="text-center">
+	              
+	            </td>
+	            <td></td>
+	          </tr>
+	        </tfoot>
+				</table>
+			</div>
+    </div>
+  </div>
+</div>
